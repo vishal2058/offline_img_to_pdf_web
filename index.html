@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f5f7fb">
+  <title>Paperflow — Image to PDF</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">P</div><div><strong>Paperflow</strong><small>OFFLINE PDF TOOLS</small></div></div>
+      <div class="nav-label">WORKSPACE</div>
+      <div class="nav-item active"><span class="nav-icon">▧</span> Image to PDF <span class="nav-pill">NEW</span></div>
+      <div class="nav-item muted"><span class="nav-icon">▤</span> Recent exports <span class="soon">Soon</span></div>
+      <div class="sidebar-bottom">
+        <div class="privacy-icon">✓</div>
+        <strong>Your files stay yours</strong>
+        <p>Processing happens locally in your browser. Nothing is uploaded.</p>
+        <div class="offline-tag"><span></span> Offline-ready</div>
+      </div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="breadcrumb">Workspace <span>/</span> Image to PDF</div>
+        <div class="top-right"><span class="secure"><span>●</span> Local processing</span><div class="avatar">PF</div></div>
+      </header>
+
+      <section class="page-heading">
+        <div>
+          <div class="eyebrow">DOCUMENT WORKSPACE</div>
+          <h1>Image to PDF</h1>
+          <p>Turn your images into a polished PDF in seconds.</p>
+        </div>
+        <div class="step-indicator"><span class="step-number">1</span><span> Add images</span><i></i><span class="step-number inactive">2</span><span class="muted-text"> Export PDF</span></div>
+      </section>
+
+      <section class="workspace-grid">
+        <div class="left-column">
+          <section class="panel import-panel">
+            <div class="panel-heading">
+              <div><h2>Your images <span id="imageCount" class="count-badge">0</span></h2><p>Add images, then drag to change their page order.</p></div>
+              <div class="panel-actions">
+                <button id="addMoreBtn" class="btn btn-light small">＋ Add images</button>
+                <button id="clearBtn" class="icon-btn" title="Clear all images" aria-label="Clear all images">⌫</button>
+              </div>
+            </div>
+            <div id="dropZone" class="drop-zone">
+              <div class="upload-icon"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M4 15.5v3A1.5 1.5 0 0 0 5.5 20h13a1.5 1.5 0 0 0 1.5-1.5v-3"/></svg></div>
+              <h3>Drop images here</h3>
+              <p>or <button id="browseBtn" class="text-button">browse files</button> from your computer</p>
+              <div class="file-types">JPG · PNG · WEBP · BMP · GIF · TIFF*</div>
+              <small>*Browser support varies by format. Animated images use the displayed frame.</small>
+            </div>
+            <input id="fileInput" type="file" accept="image/*" multiple hidden>
+            <div id="imageList" class="image-list" aria-live="polite"></div>
+            <div id="emptyHint" class="empty-hint">Your selected images will appear here.</div>
+          </section>
+          <div class="bottom-note"><span class="shield">✓</span><span><strong>Private by design</strong> — images are processed on this device and are never uploaded.</span></div>
+        </div>
+
+        <aside class="right-column">
+          <section class="panel settings-panel">
+            <div class="panel-heading compact"><div><h2>PDF settings</h2><p>Customize your output.</p></div><div class="settings-symbol">⚙</div></div>
+            <label class="field-label" for="pageSize">Page size</label>
+            <select id="pageSize" class="control"><option value="a4">A4 — 210 × 297 mm</option><option value="letter">US Letter — 8.5 × 11 in</option><option value="image">Match image dimensions</option></select>
+            <label class="field-label" for="fitMode">Image placement</label>
+            <select id="fitMode" class="control"><option value="fit">Fit to page (no cropping)</option><option value="fill">Fill page (may crop)</option></select>
+            <div class="field-label label-with-value"><label for="quality">Image quality</label><strong id="qualityValue">85%</strong></div>
+            <input id="quality" class="range" type="range" min="35" max="100" value="85">
+            <div class="range-labels"><span>Smaller file</span><span>Higher quality</span></div>
+            <label class="field-label" for="maxDimension">Maximum image dimension</label>
+            <select id="maxDimension" class="control"><option value="0">Original dimensions</option><option value="2500">2500 px — balanced</option><option value="1800">1800 px — smaller PDF</option><option value="1200">1200 px — compact PDF</option></select>
+            <div class="settings-tip"><span>ⓘ</span><p>Higher quality and original dimensions preserve more detail but usually create larger PDFs.</p></div>
+          </section>
+          <section class="export-card">
+            <div class="export-card-top"><div class="pdf-icon">PDF</div><div><strong>Ready to export?</strong><p id="exportSummary">Add images to get started.</p></div></div>
+            <label class="field-label" for="fileName">File name</label>
+            <div class="filename-control"><input id="fileName" type="text" value="my-images" maxlength="120"><span>.pdf</span></div>
+            <button id="createBtn" class="btn btn-primary" disabled><span>↓</span> Create PDF <span class="button-arrow">→</span></button>
+            <div class="progress-wrap" id="progressWrap" hidden><div class="progress-meta"><span id="progressLabel">Preparing images…</span><strong id="progressPercent">0%</strong></div><div class="progress-track"><div id="progressBar"></div></div><button id="cancelBtn" class="text-button cancel-button">Cancel export</button></div>
+            <div class="export-foot"><span>✓ No watermark</span><span>✓ No page quota</span></div>
+          </section>
+        </aside>
+      </section>
+      <footer><span>Paperflow <span class="footer-dot">•</span> Local-first PDF tools</span><span>Designed for privacy. Built for your workflow.</span></footer>
+    </main>
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>
